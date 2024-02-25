@@ -1,14 +1,12 @@
 package com.ms.user.service;
 
+import com.ms.user.config.UserNotFoundException;
 import com.ms.user.dto.UserCreateDTO;
 import com.ms.user.dto.UserResponseDTO;
 import com.ms.user.dto.UserUpdateDTO;
 import com.ms.user.mapper.UserMapper;
 import com.ms.user.model.UserModel;
 import com.ms.user.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,15 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
      private  final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public UserModel save(UserModel userModel){
-        userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
         return userRepository.save(userModel);
     }
 
@@ -55,14 +51,6 @@ public class UserService {
         }
 
         return userRepository.save(existingUser);
-    }
-
-    public class UserNotFoundException extends RuntimeException {
-
-        public UserNotFoundException(String message) {
-            super(message);
-        }
-
     }
 
 
