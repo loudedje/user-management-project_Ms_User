@@ -1,5 +1,6 @@
 package com.ms.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class UserCreateDTO {
         private String cpf;
 
         @NotBlank(message = "O campo 'birthdate' é obrigatório.")
+        @JsonFormat(pattern = "yyyy/MM/dd")
         private String birthdate;
 
         @NotBlank(message = "O campo 'email' é obrigatório.")
@@ -41,6 +43,9 @@ public class UserCreateDTO {
         @NotNull(message = "O campo 'active' é obrigatório.")
         private Boolean active;
 
-    }
+
+
+
+}
 
 
