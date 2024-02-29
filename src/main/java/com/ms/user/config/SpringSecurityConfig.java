@@ -1,7 +1,6 @@
 package com.ms.user.config;
 
 import com.ms.user.jwt.JwtAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,33 +16,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableMethodSecurity
-@Configuration
 @EnableWebMvc
+@Configuration
 public class SpringSecurityConfig {
-
-    private final AuthenticationConfiguration authenticationConfiguration;
-
-    @Autowired
-    public SpringSecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
-        this.authenticationConfiguration = authenticationConfiguration;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf->csrf.disable())
-                .formLogin(form->form.disable())
-                .httpBasic(basic->basic.disable())
-                .authorizeHttpRequests(
-                        auth->auth
-                                .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                                .anyRequest().authenticated()
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "users/v1/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**" ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/**" ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "users/auth").permitAll()
+                        .anyRequest().authenticated()
                 ).sessionManagement(
-                        session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).addFilterBefore(
                         jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
-
                 ).build();
     }
 
@@ -52,18 +44,13 @@ public class SpringSecurityConfig {
         return new JwtAuthorizationFilter();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
-    public AuthenticationManager authenticationManager() {
-        try {
-            return authenticationConfiguration.getAuthenticationManager();
-        } catch (Exception e) {
-            // Trate a exceção ou re-lance conforme necessário
-            throw new RuntimeException("Erro ao obter o AuthenticationManager", e);
-        }
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }

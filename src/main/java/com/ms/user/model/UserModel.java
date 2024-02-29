@@ -20,31 +20,34 @@ public class UserModel implements Serializable {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String cpf;
-
+    @JsonIgnore
     @Column(name = "birth_date", nullable = false)
     private String birthdate;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
-
+    @Column(nullable = false)
     private String cep;
-    @JsonIgnore
-    private String password;
 
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
     private boolean active;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 25)
+    private Role role = Role.ROLE_CLIENTE;
+
+    public enum Role{
+        ROLE_CLIENTE , ROLE_ADMIN
+    }
 
     public UserModel() {
     }
 
-    public UserModel(String firstName,
-                     String lastName,
-                     String cpf,
-                     String birthdate,
-                     String email,
-                     String cep,
-                     String password,
-                     boolean active) {
+    public UserModel(Long id, String firstName, String lastName, String cpf, String birthdate, String email, String cep, String password, boolean active, Role role) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.cpf = cpf;
@@ -53,6 +56,7 @@ public class UserModel implements Serializable {
         this.cep = cep;
         this.password = password;
         this.active = active;
+        this.role = role;
     }
 
     public Long getId() {
@@ -121,6 +125,14 @@ public class UserModel implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

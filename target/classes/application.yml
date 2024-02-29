@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ms-user
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Configura��es do Swagger
+springdoc:
+  pathsToMatch: /**
+  swagger-ui:
+    user-root-path: true
+
+mq:
+  queue:
+    user: user

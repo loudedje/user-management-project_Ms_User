@@ -32,7 +32,7 @@ public class AutenticacaoController {
         log.info("Processo de autenticação");
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+                    new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
             authenticationManager.authenticate(authenticationToken);
             JwtToken token = detailsService.getTokenAuthenticated(dto.getEmail());
             return ResponseEntity.ok(token);

@@ -1,5 +1,4 @@
 package com.ms.user.jwt;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         String email = JwtUtils.getInstance().getEmailFromToken(token);
 
         toAuthentication(request, email);
