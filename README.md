@@ -35,4 +35,4 @@ O aplicativo estará disponível em `http://localhost:8081` por padrão.
 
 
 
-Obs: O User estava funcionando, mas depois de adicionar o JWT, não estou conseguindo realizar a atualização.
+Obs: O Put estava funcionando, mas depois de adicionar o JWT, não estou conseguindo fazer atualização.
