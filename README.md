@@ -32,3 +32,7 @@ O aplicativo estará disponível em `http://localhost:8081` por padrão.
 - `POST /v1/users`: Cria um novo usuário.
 - `GET /v1/users/{id}`: Obtém informações sobre um usuário específico.
 - `PUT /v1/users/{id}`: Atualiza o usuário por e-mail e CEP como requisito.
+
+
+
+Obs: O User estava funcionando, mas depois de adicionar o JWT, não estou conseguindo realizar a atualização.
